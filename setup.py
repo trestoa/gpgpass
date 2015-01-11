@@ -8,6 +8,6 @@ setup(
 	author='Markus Klein',
 	author_email='m@mklein.co.at',
 	license='MIT',
-	keywords='gpg gnupg password manager'
+	keywords='gpg gnupg password manager',
 	install_requires=['gnupg']	
 )
