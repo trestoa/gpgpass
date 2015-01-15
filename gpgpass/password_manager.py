@@ -13,7 +13,7 @@ class PasswordManager:
         self.key_id = key_id
         self.reload()
 
-    def add_password(self, name, value):
+    def store_password(self, name, value):
         if self._operation_mode == 1:
             self.passwords[name] = value;
         return None
