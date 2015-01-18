@@ -26,6 +26,10 @@ class PasswordManager:
         """NYI"""
         pass
 
+    def retrieve_passwords(self):
+        if self._operation_mode == 1:
+            return self.passwords
+
     def delete_password(self, name):
         if self._operation_mode:
             del self.passwords[name]

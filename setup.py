@@ -9,5 +9,8 @@ setup(
 	author_email='m@mklein.co.at',
 	license='MIT',
 	keywords='gpg gnupg password manager',
-	install_requires=['gnupg']	
+	install_requires=[
+        'gnupg',
+        'pyperclip'
+    ]
 )
