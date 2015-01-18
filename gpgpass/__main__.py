@@ -53,6 +53,7 @@ if args.command == 'store' or args.command == 's':
     if args.password is None:
         args.password = getpass(prompt='Enter the password: ')
     manager.store_password(args.name, args.password)
+    manager.save()
 elif args.command == 'retrieve' or args.command == 'r':
     if args.clipboard:
         pyperclip.copy(manager.retrieve_password(args.name))
@@ -60,6 +61,7 @@ elif args.command == 'retrieve' or args.command == 'r':
         print(manager.retrieve_password(args.name))
 elif args.command == 'delete' or args.command == 'd':
     manager.delete_password(args.name)
+    manager.save()
 elif args.command == 'list' or args.command == 'l':
     if args.with_passwords:
         passwords = manager.retrieve_passwords()
@@ -69,4 +71,3 @@ elif args.command == 'list' or args.command == 'l':
     else:
         for name in manager.retrieve_passwords():
             print(name)
-manager.save()
