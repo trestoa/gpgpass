@@ -4,7 +4,7 @@
 # Copyright (c) 2015, Markus Klein
 # MIT Licensed
 
-from password_manager import PasswordManager
+from gpgpass.password_manager import PasswordManager
 from getpass import getpass
 import argparse
 import pyperclip
