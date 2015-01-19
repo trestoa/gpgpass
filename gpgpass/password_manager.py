@@ -14,19 +14,19 @@ class PasswordManager:
         self._gpg.encoding = 'utf-8'
         self._operation_mode = operation_mode
         self.password_file = password_file
-        self.passwords = None
+        self._passwords = None
         self._passphrase = passphrase
         self.key_id = key_id
         self.reload()
 
     def store_password(self, name, value):
         if self._operation_mode == 1:
-            self.passwords[name] = value;
+            self._passwords[name] = value;
         return None
 
     def retrieve_password(self, name):
         if self._operation_mode == 1:
-            return self.passwords[name]
+            return self._passwords[name]
 
     def lookup_password(self, searchstring):
         """NYI"""
@@ -34,27 +34,27 @@ class PasswordManager:
 
     def retrieve_passwords(self):
         if self._operation_mode == 1:
-            return self.passwords
+            return self._passwords
 
     def delete_password(self, name):
         if self._operation_mode:
-            del self.passwords[name]
+            del self._passwords[name]
 
     def reload(self):
         if os.path.isfile(self.password_file):
             fp = open(self.password_file, 'r', encoding='ascii')
             password_file_content = fp.read()
             if self._operation_mode == 1:
-                self.passwords = json.loads(str(self._gpg.decrypt(password_file_content, passphrase=self._passphrase)))
+                self._passwords = json.loads(str(self._gpg.decrypt(password_file_content, passphrase=self._passphrase)))
             fp.close()
         else:
-            self.passwords = {}
+            self._passwords = {}
         return None
 
     def save(self):
         fp = open(self.password_file, 'w', encoding='ascii')
         if self._operation_mode == 1:
-            password_file_content = str(self._gpg.encrypt(json.dumps(self.passwords), self.key_id, default_key=self.key_id, passphrase=self._passphrase))
+            password_file_content = str(self._gpg.encrypt(json.dumps(self._passwords), self.key_id, default_key=self.key_id, passphrase=self._passphrase))
         fp.write(password_file_content)
         fp.close()
         return None
