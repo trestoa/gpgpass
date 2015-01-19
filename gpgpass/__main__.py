@@ -20,7 +20,7 @@ parser.add_argument('id', help='fingerprint of your gpg key')
 subparsers = parser.add_subparsers(dest='command', title='commands', description='tells gpgpass what to do')
 store_parser = subparsers.add_parser('store', aliases=['s'], help='stores a new password to the password safe')
 store_parser.add_argument('name')
-store_parser.add_argument('-p', '--password')
+store_parser.add_argument('-P', '--password')
 
 retrieve_parser = subparsers.add_parser('retrieve', aliases=['r'], help='retrieves a password')
 retrieve_parser.add_argument('name')
@@ -30,14 +30,17 @@ delete_parser = subparsers.add_parser('delete', aliases=['d'], help='deletes a p
 delete_parser.add_argument('name')
 
 list_parser = subparsers.add_parser('list', aliases=['l'], help='prints a list of all password names')
-list_parser.add_argument('-p', '--with-passwords', help='show also the passwords (very dangerous!!)', action='store_true')
+list_parser.add_argument('-P', '--with-passwords', help='show also the passwords (very dangerous!!)', action='store_true')
 
-parser.add_argument('-p', '--passphrase', help='your key\'s passphrase, you will be asked for the passphrase if no provided')
+password_group = parser.add_mutually_exclusive_group()
+password_group.add_argument('-p', help='interactively ask for the passphrase', action='store_true')
+password_group.add_argument('--passphrase', help='your key\'s passphrase')
+
 parser.add_argument('-H', '--homedir', help='path to your pgp home directory (the directory wich contains keyrings), default is "~/.gnupg"')
 parser.add_argument('-f', '--file', help='path to the password file, default is "~/.gpgpass"')
 args = parser.parse_args();
 
-if args.passphrase is None:
+while args.p and not args.passphrase:
     args.passphrase = getpass(prompt='Enter your key\'s passphrase: ')
 
 manager_args = {}
