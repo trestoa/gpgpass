@@ -4,5 +4,6 @@
 # Copyright (c) 2015, Markus Klein
 # MIT Licensed
 
-if __name__ == "__main__":
-	import main
+if __name__ == '__main__':
+    from main import main
+    main()
