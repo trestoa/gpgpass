@@ -25,7 +25,7 @@ this also installs a script so your can run gpgpass like this:
 ```
 
 ## Usage
-Since your gpg key's fingderprint normally does not change, you can also put arguments into the `~/.gpgpass_args` file.
+Since your gpg key's fingerprint normally does not change, you can also put arguments into the `~/.gpgpass_args` file.
 for the rest, type `gpgpass -h` :)
 
 ## Dependencies
