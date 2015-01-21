@@ -9,11 +9,13 @@ from getpass import getpass
 import argparse
 import pyperclip
 import sys
+import os.path
 
 
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
+        fromfile_prefix_chars='@',
         description='''
     gpgpass is a password simple command line password manager.
     It encrypts the passwords using gpg and stores the passwords in a file.
@@ -56,7 +58,13 @@ def main():
 
     parser.add_argument('-H', '--homedir', help='path to your pgp home directory (the directory wich contains keyrings), default is "~/.gnupg"')
     parser.add_argument('-f', '--file', help='path to the password file, default is "~/.gpgpass"')
-    args = parser.parse_args();
+
+    if os.path.isfile('~/.gpgpass_args'):
+        fp = open('~/.gpgpass_args', 'r')
+        file_arguments = fp.read()
+    else :
+        file_arguments = ''
+    args = parser.parse_args([file_arguments.split()]);
 
     while args.p and not args.passphrase:
         args.passphrase = getpass(prompt='Enter your key\'s passphrase: ')
