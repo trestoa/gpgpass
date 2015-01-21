@@ -46,7 +46,7 @@ $ gpgpass
         retrieve (r)        retrieves a password
         delete (d)          deletes a password from the safe
         list (l)            prints a list of all password names
-Since your gpg key's fingerprint normally does not change, you can put arguments into the `~/.gpgpass_args` file.
+Since your gpg key's fingerprint normally does not change, you can put it into the `~/.gpgpass_id` file.
 
 ## Dependencies
 - gnupg
