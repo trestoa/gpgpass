@@ -19,14 +19,13 @@ def main():
         description='''
     gpgpass is a password simple command line password manager.
     It encrypts the passwords using gpg and stores the passwords in a file.
+    For convienient usage put your fingeprint the following file: "~/.gpgpass_id"
     ''',
         epilog='''
     gpgpass is free software and licensed under the MIT license.
     Copyright (c) 2015, Markus Klein
     '''
     )
-
-    parser.add_argument('id', help='fingerprint of your gpg key')
 
     aliases = {}
     subparsers = parser.add_subparsers(dest='command', title='commands', description='tells gpgpass what to do')
@@ -58,13 +57,15 @@ def main():
 
     parser.add_argument('-H', '--homedir', help='path to your pgp home directory (the directory wich contains keyrings), default is "~/.gnupg"')
     parser.add_argument('-f', '--file', help='path to the password file, default is "~/.gpgpass"')
+    parser.add_argument('-k', '--key_id', help='fingerprint of your gpg key, this will override the fingerprint specified in "~/.gpgpass_id"')
 
-    if os.path.isfile('~/.gpgpass_args'):
-        fp = open('~/.gpgpass_args', 'r')
-        file_arguments = fp.read()
-    else :
-        file_arguments = ''
-    args = parser.parse_args([file_arguments.split()]);
+    args = parser.parse_args()
+
+    id = None
+    if os.path.isfile(os.path.join(os.path.expanduser('~'), '.gpgpass_id')):
+        fp = open(os.path.join(os.path.expanduser('~'), '.gpgpass_id'), 'r')
+        id = fp.read()
+        fp.close()
 
     while args.p and not args.passphrase:
         args.passphrase = getpass(prompt='Enter your key\'s passphrase: ')
@@ -74,8 +75,12 @@ def main():
         manager_args['homedir'] = args.homedir
     if args.file:
         manager_args['password_file'] = args.file
+    if args.key_id:
+        id = arg.key_id
+    if not id:
+        parser.error('you have to specifiy your key\'s fingerprint either in "~/.gpgpass_id" or via the "-k" option')
 
-    manager = PasswordManager(args.id, args.passphrase, **manager_args)
+    manager = PasswordManager(id, args.passphrase, **manager_args)
 
     if args.command == 'store' or args.command == 's':
         if args.password is None:
