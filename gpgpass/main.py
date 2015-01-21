@@ -18,8 +18,8 @@ def main():
         fromfile_prefix_chars='@',
         description='''
     gpgpass is a password simple command line password manager.
-    It encrypts the passwords using gpg and stores the passwords in a file.
-    For convienient usage put your fingeprint the following file: "~/.gpgpass_id"
+    It encrypts the passwords using gpg and stores them in a file.
+    For convienient usage put your fingerprint the following file: "~/.gpgpass_id"
     ''',
         epilog='''
     gpgpass is free software and licensed under the MIT license.
@@ -31,31 +31,31 @@ def main():
     subparsers = parser.add_subparsers(dest='command', title='commands', description='tells gpgpass what to do')
     if sys.version_info[0] > 2:
         aliases['aliases'] = 's'
-    store_parser = subparsers.add_parser('store', help='stores a new password to the password safe', **aliases)
+    store_parser = subparsers.add_parser('store', help='store a new password to the password safe', **aliases)
     store_parser.add_argument('name')
     store_parser.add_argument('-P', '--password')
 
     if sys.version_info[0] > 2:
         aliases['aliases'] = 'r'
-    retrieve_parser = subparsers.add_parser('retrieve', help='retrieves a password', **aliases)
+    retrieve_parser = subparsers.add_parser('retrieve', help='retrieve a password', **aliases)
     retrieve_parser.add_argument('name')
     retrieve_parser.add_argument('-c', '--clipboard', action='store_true', help='copy the password to the clipboard instead of printing it')
 
     if sys.version_info[0] > 2:
         aliases['aliases'] = 'd'
-    delete_parser = subparsers.add_parser('delete', help='deletes a password from the safe', **aliases)
+    delete_parser = subparsers.add_parser('delete', help='delete a password from the safe', **aliases)
     delete_parser.add_argument('name')
 
     if sys.version_info[0] > 2:
         aliases['aliases'] = 'l'
-    list_parser = subparsers.add_parser('list', help='prints a list of all password names', **aliases)
+    list_parser = subparsers.add_parser('list', help='print a list of all password names', **aliases)
     list_parser.add_argument('-P', '--with-passwords', help='show also the passwords (very dangerous!!)', action='store_true')
 
     password_group = parser.add_mutually_exclusive_group()
     password_group.add_argument('-p', help='interactively ask for the passphrase', action='store_true')
     password_group.add_argument('--passphrase', help='your key\'s passphrase')
 
-    parser.add_argument('-H', '--homedir', help='path to your pgp home directory (the directory wich contains keyrings), default is "~/.gnupg"')
+    parser.add_argument('-H', '--homedir', help='path to your pgp home directory (the directory which contains keyrings), default is "~/.gnupg"')
     parser.add_argument('-f', '--file', help='path to the password file, default is "~/.gpgpass"')
     parser.add_argument('-k', '--key_id', help='fingerprint of your gpg key, this will override the fingerprint specified in "~/.gpgpass_id"')
 
