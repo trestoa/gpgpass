@@ -8,6 +8,7 @@ from gpgpass.password_manager import PasswordManager
 from getpass import getpass
 import argparse
 import pyperclip
+import sys
 
 
 def main():
@@ -25,19 +26,28 @@ def main():
 
     parser.add_argument('id', help='fingerprint of your gpg key')
 
+    aliases = {}
     subparsers = parser.add_subparsers(dest='command', title='commands', description='tells gpgpass what to do')
-    store_parser = subparsers.add_parser('store', aliases=['s'], help='stores a new password to the password safe')
+    if sys.version_info[0] > 2:
+        aliases['aliases'] = 's'
+    store_parser = subparsers.add_parser('store', help='stores a new password to the password safe', **aliases)
     store_parser.add_argument('name')
     store_parser.add_argument('-P', '--password')
 
-    retrieve_parser = subparsers.add_parser('retrieve', aliases=['r'], help='retrieves a password')
+    if sys.version_info[0] > 2:
+        aliases['aliases'] = 'r'
+    retrieve_parser = subparsers.add_parser('retrieve', help='retrieves a password', **aliases)
     retrieve_parser.add_argument('name')
     retrieve_parser.add_argument('-c', '--clipboard', action='store_true', help='copy the password to the clipboard instead of printing it')
 
-    delete_parser = subparsers.add_parser('delete', aliases=['d'], help='deletes a password from the safe')
+    if sys.version_info[0] > 2:
+        aliases['aliases'] = 'd'
+    delete_parser = subparsers.add_parser('delete', help='deletes a password from the safe', **aliases)
     delete_parser.add_argument('name')
 
-    list_parser = subparsers.add_parser('list', aliases=['l'], help='prints a list of all password names')
+    if sys.version_info[0] > 2:
+        aliases['aliases'] = 'l'
+    list_parser = subparsers.add_parser('list', help='prints a list of all password names', **aliases)
     list_parser.add_argument('-P', '--with-passwords', help='show also the passwords (very dangerous!!)', action='store_true')
 
     password_group = parser.add_mutually_exclusive_group()

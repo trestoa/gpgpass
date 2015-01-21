@@ -42,7 +42,7 @@ class PasswordManager:
 
     def reload(self):
         if os.path.isfile(self.password_file):
-            fp = open(self.password_file, 'r', encoding='ascii')
+            fp = open(self.password_file, 'r')
             password_file_content = fp.read()
             if self._operation_mode == 1:
                 self._passwords = json.loads(str(self._gpg.decrypt(password_file_content, passphrase=self._passphrase)))
@@ -52,7 +52,7 @@ class PasswordManager:
         return None
 
     def save(self):
-        fp = open(self.password_file, 'w', encoding='ascii')
+        fp = open(self.password_file, 'w')
         if self._operation_mode == 1:
             password_file_content = str(self._gpg.encrypt(json.dumps(self._passwords), self.key_id, default_key=self.key_id, passphrase=self._passphrase))
         fp.write(password_file_content)
